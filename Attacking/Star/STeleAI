@@ -1,0 +1,75 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class STeleAI : MonoBehaviour {
+
+    public int telephase = 0;
+    public bool wait;
+    public bool teleported = false;
+    public float xpos;
+    public float ypos;
+
+    GameObject star;
+    private void Start()
+    {
+        gameObject.GetComponent<Renderer>().enabled = false;
+    }
+
+    IEnumerator Wait()
+    {
+        wait = true;
+        yield return new WaitForSecondsRealtime(0.2f);
+        telephase = 1;
+        wait = false;
+    }
+    IEnumerator Tele2()
+    {
+        telephase = 2;
+        gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load("grenade1", typeof(Sprite)) as Sprite;
+        yield return new WaitForSecondsRealtime(.2f);
+        gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load("grenade2", typeof(Sprite)) as Sprite;
+        yield return new WaitForSecondsRealtime(.2f);
+        gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load("grenade1", typeof(Sprite)) as Sprite;
+        yield return new WaitForSecondsRealtime(.2f);
+        gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load("grenade2", typeof(Sprite)) as Sprite;
+        yield return new WaitForSecondsRealtime(.2f);
+        Vector2 scale = new Vector2(5, 5);
+        transform.localScale = scale;
+        gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load("explode", typeof(Sprite)) as Sprite;
+        yield return new WaitForSecondsRealtime(3f);
+        gameObject.GetComponent<Renderer>().enabled = false;
+        yield return new WaitForSecondsRealtime(2f);
+        telephase = 0;
+    }
+
+
+    void Update ()
+    {
+        if (GameManager.GM.GetComponent<StarManager>().passivetype == 2 || GameManager.GM.GetComponent<StarManager>().passivetype2 == 2)
+        {
+            star = GameObject.Find("Starfish");
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                if (telephase == 0)
+                {
+                    gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load("telemarker", typeof(Sprite)) as Sprite;
+                    Vector2 scale = new Vector2(1, 1);
+                    transform.localScale = scale;
+                    transform.position = new Vector2(star.transform.position.x, star.transform.position.y);
+                    xpos = transform.position.x;
+                    ypos = transform.position.y;
+                    gameObject.GetComponent<Renderer>().enabled = true;
+                    StartCoroutine(Wait());
+                }
+                if (telephase == 1)
+                {
+                    transform.position = new Vector2(star.transform.position.x, star.transform.position.y);
+                    StartCoroutine(Tele2());
+                    star.transform.position = new Vector2(xpos, ypos);
+                    teleported = true;
+                }
+            }
+        }
+    }
+}
