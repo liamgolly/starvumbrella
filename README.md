@@ -8,3 +8,4 @@
 # don't copy paste code from the internet
 # unlike scratch, you can make variables that already exist here, and it isn't too cluttered, but don't overcomplicate it, the basics are #         completed already
 # due dates exist, so complete your code please
+# honestly it isn't really possible to do this because unity has sprite and gameobjects that can't be shared here reasonably, so it is best to just put code here and say where it goes in the description, putting code already attached to the main game is just a formality.
