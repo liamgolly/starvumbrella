@@ -52,6 +52,7 @@ public class StarBulletAI : MonoBehaviour {
             TouchingWall = true;
         }
     }
+    
 
     public void Update()
     {
