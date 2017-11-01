@@ -1,0 +1,31 @@
+using UnityEngine;
+using System.Collections;
+
+public class StartingHide : MonoBehaviour
+{
+    public static StartingHide GM;
+    public GameObject menu; // Assign in inspector
+    public GameObject start;
+    private bool isShowing;
+
+  
+
+    void Update()
+    {
+        
+        ReadyButton Start = start.GetComponent<ReadyButton>();
+
+        if (Input.GetKeyDown("escape"))
+        {
+            isShowing = !isShowing;
+            menu.SetActive(isShowing);
+        }
+
+        if (Start.Start == true)
+        {
+            menu.SetActive(false);
+            Start.Start = false;
+            
+        }
+    }
+}
