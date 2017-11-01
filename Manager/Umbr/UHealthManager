@@ -1,0 +1,102 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class UHealthManager : MonoBehaviour {
+    public float health;
+
+
+    GameObject DashPassive;
+    GameObject bulletthing;
+
+    private int i;
+    bool justhurt = false;
+
+	void Update ()
+    {
+        bulletthing = GameObject.Find("StarBullet");
+        DashPassive = GameObject.Find("DashSword");
+
+        StarBulletAI bullet = bulletthing.GetComponent<StarBulletAI>();
+        SDashSwordAI dash = DashPassive.GetComponent<SDashSwordAI>();
+        var hurt = GameManager.GM.GetComponent<SAttackDamage>();
+        var playerhealth = GameManager.GM.GetComponent<UHealth>();
+
+        while (i < 1)
+        {
+            health = playerhealth.UmbrHealth;
+            health *= 4;
+            i++;
+        }
+
+        if (bullet.TouchingUmbrella == true)
+        {
+            health -= hurt.StarAttackDamage;
+            bullet.GetComponent<Renderer>().enabled = false;
+            bullet.TouchingUmbrella = false;
+            bullet.shooting = false;
+        }
+        else
+        {
+            bullet.TouchingUmbrella = false;
+        }
+
+        if (dash.TouchingUmbr == true)
+        {
+            health -= hurt.StarAttackDamage * .75f;
+            dash.TouchingUmbr = false;
+        }
+        else
+        {
+            dash.TouchingUmbr = false;
+        }
+    }
+
+
+    IEnumerator Wait()
+    {
+        
+        yield return new WaitForSecondsRealtime(.5f);
+        justhurt = false;
+    }
+
+
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+     
+        if (other.tag == "TeleExplosion")
+        { 
+            var hurt = GameManager.GM.GetComponent<SAttackDamage>();
+            GameObject expd = GameObject.Find("TeleMarker");
+            STeleAI tele = expd.GetComponent<STeleAI>();
+            if (tele.telephase == 2)
+            {
+                health -= hurt.StarAttackDamage * .025f;
+            }
+           
+        }
+
+        
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "SlashUlt")
+        {
+            var hurt = GameManager.GM.GetComponent<SAttackDamage>();
+            GameObject ow = GameObject.Find("Slash1");
+            SSlashUltAI ower = ow.GetComponent<SSlashUltAI>();
+            var playerhealth = GameManager.GM.GetComponent<UHealth>();
+
+            if (justhurt == false)
+            {
+                health -= (hurt.StarAttackDamage * (((playerhealth.UmbrHealth * 4)- health) * ((playerhealth.UmbrHealth * 4) - health))) * .01f;
+                Debug.Log("number");
+                StartCoroutine(Wait());
+            }
+            Debug.Log("number");
+        }
+    }
+}
