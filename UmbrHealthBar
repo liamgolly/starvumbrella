@@ -1,0 +1,31 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class UmbrHealthBar : MonoBehaviour
+{
+
+    public Slider slider;
+
+    UHealth uH;
+    GameObject uHM;
+
+    void Start()
+    {
+        slider = GameObject.Find("UmbrHealth").GetComponent<Slider>();
+    }
+
+
+    void Update()
+    {
+
+        uHM = GameObject.Find("Umbrella");
+        UHealthManager health = uHM.GetComponent<UHealthManager>();
+
+        uH = GameManager.GM.GetComponent<UHealth>();
+
+        slider.maxValue = uH.UmbrHealth * 4;
+        slider.value = health.health;
+    }
+}
