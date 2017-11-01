@@ -1,4 +1,6 @@
 # put all your code here
+# always have 1 scratch passive and 1 scratch ult assigned to yourself untill they are all added, and whatever else you want as well
+# don't assign yourself to someone elses code unless you really know what you are doing
 # start with the very easy to learn to code 
 # move to more difficult over time
 # if you want to add a new ult/passive do it in the format of Project : (new ult/passive)
