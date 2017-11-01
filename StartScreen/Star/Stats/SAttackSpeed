@@ -1,0 +1,44 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class SAttackSpeed : MonoBehaviour
+{
+    public Slider slider;
+    public float StarAttackSpeed = 1;
+
+    public Image Fill;
+
+    GameObject maxd;
+
+    public void Awake()
+    {
+        slider = gameObject.GetComponent<Slider>();
+
+    }
+    public void Start()
+    {
+        slider = GameObject.Find("sAttackSpeed-S").GetComponent<Slider>();
+        slider.wholeNumbers = true;
+        slider.minValue = 0f;
+        slider.maxValue = 50f;
+    }
+    public void Update()
+    {
+        StarAttackSpeed = slider.value;
+
+        maxd = GameObject.Find("StartingScreen");
+        SStatTotal max = maxd.GetComponent<SStatTotal>();
+
+        if (max.sStatMaxed)
+        {
+            slider.maxValue = StarAttackSpeed;
+        }
+        else
+        {
+            slider.maxValue = 50f;
+        }
+    }
+}
+
