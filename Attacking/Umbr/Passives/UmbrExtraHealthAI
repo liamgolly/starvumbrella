@@ -1,0 +1,21 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class UmbrExtraHealthAi : MonoBehaviour
+{
+	public bool hasextHealth;
+	
+	void Update()
+	{
+		//healthobject is refering to umbrella
+		healthobject = GameObject.Find("Umbrella");
+		UHealthManager health = healthobject.GetComponent<UHealthManager>();
+
+		if (Input.GetKeyDown(KeyCode.Alpha4))
+		{
+			hasextHealth = true;
+			health.health = 1000;
+		}
+	}
+}
