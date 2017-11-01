@@ -1,0 +1,76 @@
+using UnityEngine;
+using System.Collections;
+
+public class NormalStarMove : MonoBehaviour {
+
+	public Rigidbody2D Star;
+
+	public float StarXSpeed;
+	public float StarYSpeed;
+	
+
+	void Start() {
+
+		Star = GetComponent<Rigidbody2D> ();
+	}
+
+	
+    void OnTriggerStay2D(Collider2D col)
+    {
+
+        if (col.gameObject.tag == "Walls")
+        {
+            if (transform.position.y > 21)
+            {
+                transform.position = new Vector2(transform.position.x, 22.85f);
+                
+            }
+            if (transform.position.x > 46)
+            {
+                transform.position = new Vector2(47.8f, transform.position.y);
+               
+            }
+            if (transform.position.y < -21)
+            {
+                transform.position = new Vector2(transform.position.x, -23.45f);
+                
+            }
+            if (transform.position.x < -46)
+            {
+                transform.position = new Vector2(-49.75f, transform.position.y);
+                
+
+            }
+
+        }
+
+    }
+
+
+    void Update () {
+
+        var speed = GameManager.GM.GetComponent<SSpeed>();
+
+        if (Input.GetKey (KeyCode.LeftArrow)) {
+			StarXSpeed = (speed.StarSpeed * -1);
+
+		} else if (Input.GetKey (KeyCode.RightArrow)) {
+			StarXSpeed = speed.StarSpeed;
+
+		} else {
+			StarXSpeed = 0;
+
+		}
+		if (Input.GetKey(KeyCode.UpArrow)) {
+			StarYSpeed = speed.StarSpeed;
+
+		} else if (Input.GetKey(KeyCode.DownArrow)) {
+			StarYSpeed = (speed.StarSpeed * -1);
+
+		} else {
+			StarYSpeed = 0;
+
+		}
+			Star.velocity = new Vector2 (StarXSpeed, StarYSpeed);
+	}
+}
