@@ -1,0 +1,46 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class SStatTotal : MonoBehaviour
+{
+    SHealth sH;
+    SAttackDamage sAD;
+    SAttackSpeed sAS;
+    SSpeed sS;
+    public float sStatTot;
+    public bool sStatMaxed;
+
+
+
+    void Update()
+    {
+        sH = GetComponent<SHealth>();
+        sAD = GetComponent<SAttackDamage>();
+        sAS = GetComponent<SAttackSpeed>();
+        sS = GetComponent<SSpeed>();
+
+        NewMethod();
+
+        if (sStatTot > 49)
+        {
+            sStatMaxed = true;
+        }
+        else
+        {
+            sStatMaxed = false;
+        }
+
+    }
+
+    private void NewMethod()
+    {
+        sStatTot = sH.StarHealth + sAD.StarAttackDamage + sAS.StarAttackSpeed + sS.StarSpeed;
+    }
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(transform.gameObject);
+    }
+}
