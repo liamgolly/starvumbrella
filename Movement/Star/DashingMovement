@@ -1,0 +1,134 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class DashingMovment : MonoBehaviour {
+
+   
+   
+    public bool dashava;
+    public float dashdistance;
+    public bool dashing;
+    public float dashcd = 1;
+    
+
+ 
+   
+
+    IEnumerator Wait()
+    {
+        yield return new WaitForSecondsRealtime(0.15f);
+        dashava = true;
+        dashing = false;
+        var cd = GameManager.GM.GetComponent<SAttackSpeed>();
+        dashcd = 10/ cd.StarAttackSpeed;
+        yield return new WaitForSecondsRealtime(dashcd);
+        dashava = false;
+      
+    }
+
+    IEnumerator DashedLeft()
+    {
+        var cd = GameManager.GM.GetComponent<SAttackSpeed>();
+        dashdistance = cd.StarAttackSpeed * 2.5f;
+        float timePassed = 0;
+        while (timePassed < 2)
+        {
+            timePassed += Time.deltaTime;
+            Vector3 target = new Vector2(transform.position.x - dashdistance, transform.position.y);
+            var speed = 1f * Time.deltaTime;
+
+            transform.position = Vector3.MoveTowards(transform.position, target, speed);
+          
+        }
+        yield return new WaitForSeconds(0);
+    }
+    IEnumerator DashedRight()
+    {
+        var cd = GameManager.GM.GetComponent<SAttackSpeed>();
+        dashdistance = cd.StarAttackSpeed * 2.5f;
+        float timePassed = 0;
+        while (timePassed < 2)
+        {
+            timePassed += Time.deltaTime;
+            Vector3 target = new Vector2(transform.position.x + dashdistance, transform.position.y);
+            var speed = 1f * Time.deltaTime;
+
+            transform.position = Vector3.MoveTowards(transform.position, target, speed);
+            
+        }
+        yield return new WaitForSeconds(0);
+    }
+    IEnumerator DashedUp()
+    {
+        var cd = GameManager.GM.GetComponent<SAttackSpeed>();
+        dashdistance = cd.StarAttackSpeed * 2.5f;
+        float timePassed = 0;
+        while (timePassed < 2)
+        {
+            timePassed += Time.deltaTime;
+            Vector3 target = new Vector2(transform.position.x, transform.position.y + dashdistance);
+            var speed = 1f * Time.deltaTime;
+
+            transform.position = Vector3.MoveTowards(transform.position, target, speed);
+           
+        }
+        yield return new WaitForSeconds(0);
+    }
+    IEnumerator DashedDown()
+    {
+        var cd = GameManager.GM.GetComponent<SAttackSpeed>();
+        dashdistance = cd.StarAttackSpeed * 2.5f;
+        float timePassed = 0;
+        while (timePassed < 2)
+        {
+            timePassed += Time.deltaTime;
+            Vector3 target = new Vector2(transform.position.x, transform.position.y - dashdistance);
+            var speed = 1f * Time.deltaTime;
+
+            transform.position = Vector3.MoveTowards(transform.position, target, speed);
+           
+        }
+        yield return new WaitForSeconds(0);
+    }
+
+    void Update()
+    {        
+        var man = GameManager.GM.GetComponent<StarManager>();
+        if (man.passivetype == 1 || man.passivetype2 == 1)
+        {
+            
+            if (dashava == false)
+            {
+                if (Input.GetKey(KeyCode.P) && Input.GetKey(KeyCode.LeftArrow))
+                {
+                    dashing = true;
+                    StartCoroutine(DashedLeft());
+                    StartCoroutine(Wait());
+                    
+                }
+
+                if (Input.GetKey(KeyCode.P) && Input.GetKey(KeyCode.RightArrow))
+                {
+                    dashing = true;
+                    StartCoroutine(DashedRight());
+                    StartCoroutine(Wait());
+                }
+
+                if (Input.GetKey(KeyCode.P) && Input.GetKey(KeyCode.DownArrow))
+                {
+                    dashing = true;
+                    StartCoroutine(DashedDown());
+                    StartCoroutine(Wait());
+                }
+
+                if (Input.GetKey(KeyCode.P) && Input.GetKey(KeyCode.UpArrow))
+                {
+                    dashing = true;
+                    StartCoroutine(DashedUp());
+                    StartCoroutine(Wait());
+                }
+            }
+        }
+    }
+}
