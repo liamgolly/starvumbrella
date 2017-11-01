@@ -1,0 +1,122 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class StarBulletAI : MonoBehaviour {
+    public Rigidbody2D StaBullet;
+
+    public bool ShootPressed = false;
+    public bool shooting = false;
+
+    public float StarX;
+    public float StarY;
+
+    public bool TouchingWall;
+    public bool TouchingUmbrella;
+
+    public int i;
+    public int j;
+
+
+    Vector3 Umbrella;
+
+    
+
+    public void Awake()
+    {
+        gameObject.GetComponent<Renderer>().enabled = false;
+        StaBullet = GetComponent<Rigidbody2D>();
+        transform.position = new Vector2(100, 100);
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+
+        if (col.gameObject.tag == "Walls")
+        {
+            TouchingWall = true;
+        }
+
+        if (col.gameObject.tag == "Umbrella")
+        {
+            TouchingUmbrella = true;
+        }
+
+    }
+
+    void OnTriggerExit2D(Collider2D col)
+    {
+
+        if (col.gameObject.tag == "Walls")
+        {
+            TouchingWall = true;
+        }
+    }
+
+    public void Update()
+    {
+        var man = GameManager.GM.GetComponent<StarManager>();
+
+        if (man.passivetype != 1 && man.passivetype2 !=1) {
+            if (shooting == false)
+            {
+                if (Input.GetKeyDown(KeyCode.P) == true)
+                {
+                    ShootPressed = true;
+                    shooting = true;
+
+                    StarX = GameObject.Find("Starfish").transform.position.x;
+                    StarY = GameObject.Find("Starfish").transform.position.y;
+                    Vector2 position = new Vector2(StarX, StarY);
+                    transform.position = position;
+
+                    gameObject.GetComponent<Renderer>().enabled = true;
+
+                    i = 0;
+                    j = 0;
+                }
+            }
+
+            if (ShootPressed == true)
+            {
+                gameObject.GetComponent<Renderer>().enabled = true;
+                while (i < 1)
+                {
+                    int copy = i;
+                    Umbrella = GameObject.Find("Umbrella").transform.position;
+                    i++;
+                }
+
+                var attackspeed = GameManager.GM.GetComponent<SAttackSpeed>();
+
+                while (j < 1)
+                {
+                    int copy2 = j;
+                    transform.LookAt(transform.position + new Vector3(0, 0, 1), Umbrella - transform.position);
+                    j++;
+                    
+                }
+
+                for (int i = 0; i < 100; i++)
+                {
+                    transform.position += transform.up * Time.deltaTime * (attackspeed.StarAttackSpeed / 15);
+                    
+                }
+
+                if (TouchingWall == true)
+                {
+                    shooting = false;
+                    gameObject.GetComponent<Renderer>().enabled = false;
+                    TouchingWall = false;
+
+                }
+
+                if (TouchingUmbrella == true)
+                {
+                    shooting = false;
+                    gameObject.GetComponent<Renderer>().enabled = false;
+                }
+            }
+        }
+    }
+}
