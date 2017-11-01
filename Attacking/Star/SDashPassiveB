@@ -1,0 +1,43 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class SDashPassiveB : MonoBehaviour {
+
+    public Image fill;
+    GameObject temp;
+
+	public void OnMouseDown()
+    {
+        temp = GameObject.Find("StartingScreen");
+        StarManager man = temp.GetComponent<StarManager>();
+
+        if (man.passivetype != 1  && man.passivetype2 != 0)
+        {
+            man.passivetype = 1;
+            
+        }
+        else
+        {
+            if (man.passivetype2 != 1)
+            {
+                man.passivetype2 = 1;
+            }
+        }
+    }
+
+    void Update()
+    {
+        temp = GameObject.Find("StartingScreen");
+        StarManager man = temp.GetComponent<StarManager>();
+        if (man.passivetype == 1 || man.passivetype2 == 1)
+        {
+            fill.color = Color.green;
+        }
+        else
+        {
+            fill.color = Color.blue;
+        }
+    }
+}
