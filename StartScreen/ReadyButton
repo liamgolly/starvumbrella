@@ -1,0 +1,25 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
+public class ReadyButton : MonoBehaviour
+{
+    public bool Start = false;
+    public GameObject menu;
+
+    void Awake()
+    {
+        menu.SetActive(value: true);
+
+    }
+
+    public void OnMouseDown()
+    {
+        SceneManager.LoadScene("fightArea");
+        Start = true;
+    }
+}
+
+
