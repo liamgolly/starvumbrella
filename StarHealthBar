@@ -1,0 +1,28 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class StarHealthBar : MonoBehaviour {
+
+    public Slider slider;
+
+    SHealth sH;
+    GameObject sHM;
+
+	void Start () {
+        slider = GameObject.Find("StarHealth").GetComponent<Slider>();
+    }
+	
+	
+	void Update () {
+
+        sHM = GameObject.Find("Starfish");
+        StarHealthManager health = sHM.GetComponent<StarHealthManager>();
+
+        sH = GameManager.GM.GetComponent<SHealth>();
+
+        slider.maxValue = sH.StarHealth * 4;
+        slider.value = health.health;
+    }
+}
