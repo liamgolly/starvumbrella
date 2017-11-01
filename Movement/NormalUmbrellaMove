@@ -1,0 +1,80 @@
+using UnityEngine;
+using System.Collections;
+
+public class NormalUmbrellaMove : MonoBehaviour {
+
+	public Rigidbody2D Umbr;
+
+	public float UmbrellaXSpeed = 0.5f;
+	public float UmbrellaYSpeed = 0.5f;
+	public bool TouchingWall = false;
+
+
+
+	void OnTriggerStay2D(Collider2D col) {
+
+		if (col.gameObject.tag == "Walls") {
+			TouchingWall = true;
+
+		} else {
+			TouchingWall = false;
+		}
+	}
+
+
+	void Start() {
+		
+		Umbr = GetComponent<Rigidbody2D> ();
+	}
+
+	void Update () {
+
+        var speed = GameManager.GM.GetComponent<USpeed>();
+
+
+        if (Input.GetKey (KeyCode.A)) {
+			UmbrellaXSpeed = speed.UmbrSpeed * -1;
+
+		} else if (Input.GetKey (KeyCode.D)) {
+			UmbrellaXSpeed = speed.UmbrSpeed;
+
+			} else {
+			UmbrellaXSpeed = 0;
+
+		}
+			if (Input.GetKey(KeyCode.W)) {
+			UmbrellaYSpeed = speed.UmbrSpeed;
+
+			} else if (Input.GetKey(KeyCode.S)) {
+			UmbrellaYSpeed = speed.UmbrSpeed * -1;
+		
+			} else {
+			UmbrellaYSpeed = 0;
+
+		}
+			if (TouchingWall == false) {
+			Umbr.velocity = new Vector2 (UmbrellaXSpeed, UmbrellaYSpeed);
+		}
+			if (TouchingWall == true) {
+				if (transform.position.y > 21) {
+				transform.position = new Vector2 (transform.position.x, 22.85f);
+				TouchingWall = false;
+			}
+				if (transform.position.x > 46) {
+				transform.position = new Vector2 (47.2f, transform.position.y);
+				TouchingWall = false;
+			}
+				if (transform.position.y < -21) {
+				transform.position = new Vector2 (transform.position.x, -23.55f);
+				TouchingWall = false;
+			}
+            if (transform.position.x < -46)
+            {
+                transform.position = new Vector2(-48.95f, transform.position.y);
+                TouchingWall = false;
+
+
+            }
+		}
+	}
+}
