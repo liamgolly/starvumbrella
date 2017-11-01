@@ -1,0 +1,47 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class UAttackDamage : MonoBehaviour
+{
+
+    public Slider slider;
+    public float UmbrAttackDamage = 1;
+
+    public Image Fill;
+
+
+    GameObject maxd;
+
+    public void Awake()
+    {
+        slider = gameObject.GetComponent<Slider>();
+
+    }
+    public void Start()
+    {
+        slider = GameObject.Find("u-AttackDamage-S").GetComponent<Slider>();
+        slider.wholeNumbers = true;
+        slider.minValue = 0f;
+        slider.maxValue = 50f;
+    }
+
+
+    public void Update()
+    {
+        UmbrAttackDamage = slider.value;
+        maxd = GameObject.Find("StartingScreen");
+        UStatTotal max = maxd.GetComponent<UStatTotal>();
+
+        if (max.uStatMaxed)
+        {
+            slider.maxValue = UmbrAttackDamage;
+        }
+        else
+        {
+            slider.maxValue = 50f;
+        }
+
+    }
+}
