@@ -1,0 +1,52 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class SDashSwordAI : MonoBehaviour {
+
+    GameObject star;
+    GameObject umbr;
+
+    public bool TouchingUmbr;
+
+    GameObject dash;
+	
+	
+	void Update () {
+        star = GameObject.Find("Starfish");
+        umbr = GameObject.Find("Umbrella");
+
+        Quaternion rotation = Quaternion.LookRotation
+             (umbr.transform.position - transform.position, transform.TransformDirection(Vector3.up));
+        transform.rotation = new Quaternion(0, 0, rotation.z, rotation.w);
+
+        transform.position = new Vector2(star.transform.position.x + 0.25f, star.transform.position.y + 0.3f);
+
+        dash = GameObject.Find("Starfish");
+        DashingMovment dasher = dash.GetComponent<DashingMovment>();
+        if (dasher.dashing == true)
+        {
+            gameObject.GetComponent<Renderer>().enabled = true;
+        }
+        else
+        {
+            gameObject.GetComponent<Renderer>().enabled = false;
+        }
+	}
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        dash = GameObject.Find("Starfish");
+        DashingMovment dasher = dash.GetComponent<DashingMovment>();
+        if (dasher.dashing == true)
+        {
+            if (collision.gameObject.tag == "Umbrella")
+            {
+                TouchingUmbr = true;
+            }
+        }
+    }
+
+
+}
