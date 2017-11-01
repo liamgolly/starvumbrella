@@ -1,0 +1,47 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+
+
+public class StarHealthManager : MonoBehaviour
+{
+    public float health;
+    public int ulttye;
+    public int passivetype;
+
+
+    GameObject bulletthing;
+
+    private int i;
+
+    void Update()
+    {
+        
+        var playerhealth = GameManager.GM.GetComponent<SHealth>();
+        while (i < 1)
+        {
+            health = playerhealth.StarHealth;
+            health *= 4;
+            i++;
+        }
+       
+        bulletthing = GameObject.Find("UmbrBullet");
+        UmbrBulletAI bullet = bulletthing.GetComponent<UmbrBulletAI>();
+        var hurt = GameManager.GM.GetComponent<UAttackDamage>();
+       
+        if (bullet.TouchingStar == true)
+        {
+            health -= hurt.UmbrAttackDamage;
+            bullet.GetComponent<Renderer>().enabled = false;
+            bullet.TouchingStar = false;
+            bullet.shooting = false;
+        }
+        else
+        {
+            bullet.TouchingStar = false;
+        }
+       
+    }
+}
