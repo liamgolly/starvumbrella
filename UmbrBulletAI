@@ -1,0 +1,115 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class UmbrBulletAI : MonoBehaviour
+{
+    public Rigidbody2D UmbBullet;
+
+    public bool ShootPressed = false;
+    public bool shooting = false;
+
+    public float UmbrX;
+    public float UmbrY;
+
+    public bool TouchingWall;
+    public bool TouchingStar;
+
+    public int i;
+    public int j;
+
+    Vector3 Star;
+
+    public void Awake()
+    {
+        gameObject.GetComponent<Renderer>().enabled = false;
+        UmbBullet = GetComponent<Rigidbody2D>();
+        transform.position = new Vector2(100, 100);
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+
+        if (col.gameObject.tag == "Walls")
+        {
+            TouchingWall = true;
+        }
+
+        if (col.gameObject.tag == "Star")
+        {
+            TouchingStar = true;
+        }
+
+    }
+
+    void OnTriggerExit2D(Collider2D col)
+    {
+
+        if (col.gameObject.tag == "Walls")
+        {
+            TouchingWall = true;
+        }
+    }
+
+    public void Update()
+    {
+        if (shooting == false)
+        {
+            if (Input.GetKeyDown(KeyCode.Space) == true)
+            {
+                ShootPressed = true;
+                shooting = true;
+
+                UmbrX = GameObject.Find("Umbrella").transform.position.x;
+                UmbrY = GameObject.Find("Umbrella").transform.position.y;
+                Vector2 position = new Vector2(UmbrX, UmbrY);
+                transform.position = position;
+
+                gameObject.GetComponent<Renderer>().enabled = true;
+
+                i = 0;
+                j = 0;
+            }
+        }
+
+        if (ShootPressed == true)
+        {
+            gameObject.GetComponent<Renderer>().enabled = true;
+            while (i < 1)
+            {
+                int copy = i;
+                Star = GameObject.Find("Starfish").transform.position;
+                i++;
+            }
+
+            var attackspeed = GameManager.GM.GetComponent<UAttackSpeed>();
+
+            while (j < 1)
+            {
+                int copy2 = j;
+                transform.LookAt(transform.position + new Vector3(0, 0, 1), Star - transform.position);
+                j++;
+            }
+
+            for (int i = 0; i < 100; i++)
+            {
+                transform.position += transform.up * Time.deltaTime * (attackspeed.UmbrAttackSpeed / 15);
+
+            }
+
+            if (TouchingWall == true)
+            {
+                shooting = false;
+                gameObject.GetComponent<Renderer>().enabled = false;
+                TouchingWall = false;
+
+            }
+
+            if (TouchingStar == true)
+            {
+                shooting = false;
+                gameObject.GetComponent<Renderer>().enabled = false;
+            }
+        }
+    }
+}
