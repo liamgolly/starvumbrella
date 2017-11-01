@@ -1,0 +1,43 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class STelePassiveB : MonoBehaviour
+{
+
+    public Image fill;
+    GameObject temp;
+
+    public void OnMouseDown()
+    {
+        temp = GameObject.Find("StartingScreen");
+        StarManager man = temp.GetComponent<StarManager>();
+
+        if (man.passivetype != 2 && man.passivetype2 != 0)
+        {
+            man.passivetype = 2;
+        }
+        else
+        {
+            if (man.passivetype2 != 2)
+            {
+                man.passivetype2 = 2;
+            }
+        }
+    }
+
+    void Update()
+    {
+        temp = GameObject.Find("StartingScreen");
+        StarManager man = temp.GetComponent<StarManager>();
+        if (man.passivetype == 2 || man.passivetype2 == 2)
+        {
+            fill.color = Color.green;
+        }
+        else
+        {
+            fill.color = Color.blue;
+        }
+    }
+}
