@@ -1,0 +1,43 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class UHealth : MonoBehaviour
+{
+    public Slider slider;
+    public float UmbrHealth = 1;
+
+    public Image Fill;
+
+    GameObject maxd;
+
+    public void Awake()
+    {
+        slider = gameObject.GetComponent<Slider>();
+
+    }
+    public void Start()
+    {
+        slider = GameObject.Find("uHealth-S").GetComponent<Slider>();
+        slider.wholeNumbers = true;
+        slider.minValue = 0f;
+        slider.maxValue = 50f;
+    }
+    public void Update()
+    {
+        UmbrHealth = slider.value;
+
+        maxd = GameObject.Find("StartingScreen");
+        UStatTotal max = maxd.GetComponent<UStatTotal>();
+
+        if (max.uStatMaxed)
+        {
+            slider.maxValue = UmbrHealth;
+        }
+        else
+        {
+            slider.maxValue = 50f;
+        }
+    }
+}
