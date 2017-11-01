@@ -1,0 +1,24 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class StarSkillPoints : MonoBehaviour {
+
+    public Slider slider;
+    GameObject maxd;
+
+	void Start () {
+        slider = gameObject.GetComponent<Slider>();
+	}
+	
+
+	void Update () {
+
+        maxd = GameObject.Find("StartingScreen");
+        SStatTotal max = maxd.GetComponent<SStatTotal>();
+
+        slider.value = max.sStatTot;
+
+    }
+}
