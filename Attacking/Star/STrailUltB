@@ -1,0 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class STrailUltB : MonoBehaviour
+{
+
+    public Image fill;
+    GameObject temp;
+
+    public void OnMouseDown()
+    {
+        temp = GameObject.Find("StartingScreen");
+        StarManager man = temp.GetComponent<StarManager>();
+
+        if (man.ulttype != 2)
+        {
+            man.ulttype = 2;
+
+        }
+    }
+
+    void Update()
+    {
+        temp = GameObject.Find("StartingScreen");
+        StarManager man = temp.GetComponent<StarManager>();
+        if (man.ulttype == 2)
+        {
+            fill.color = Color.green;
+        }
+        else
+        {
+            fill.color = Color.blue;
+        }
+    }
+}
