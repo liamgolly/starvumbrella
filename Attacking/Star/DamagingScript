@@ -1,0 +1,21 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class DamagingScript : MonoBehaviour {
+
+    public bool isTouching = false;
+
+    public void Start()
+    {
+        isTouching = false;
+    }
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        isTouching = true;
+        if (collision.gameObject.tag == "Umbrella")
+        {
+            GameObject.Find("Umbrella").GetComponent<UHealthManager>().health -= 10;
+        }
+    }
+}
